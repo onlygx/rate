@@ -50,7 +50,12 @@ public class CycleRateServiceImpl implements CycleRateService{
             for(int i = 0 ; i < rates.length;i++){
                 CycleRate cr = new CycleRate(times[i],rates[i],appId);
                 cr.setId(UUIDFactory.getLongId());
-                cycleRateMapper.insertSelective(cr);
+                try {
+                    cycleRateMapper.insertSelective(cr);
+                }catch (Exception e){
+
+                }
+
             }
         }
     }

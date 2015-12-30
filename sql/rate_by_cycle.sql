@@ -1,0 +1,56 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost_3306
+Source Server Version : 50624
+Source Host           : localhost:3306
+Source Database       : rate_by_cycle
+
+Target Server Type    : MYSQL
+Target Server Version : 50624
+File Encoding         : 65001
+
+Date: 2015-12-30 17:49:13
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for cycle_rate
+-- ----------------------------
+DROP TABLE IF EXISTS `cycle_rate`;
+CREATE TABLE `cycle_rate` (
+  `id` bigint(20) NOT NULL,
+  `time` timestamp NULL DEFAULT NULL,
+  `rate` int(11) DEFAULT NULL,
+  `app_id` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of cycle_rate
+-- ----------------------------
+INSERT INTO `cycle_rate` VALUES ('61347749294799253', '2015-07-22 21:15:11', '65', '888888');
+INSERT INTO `cycle_rate` VALUES ('62728640351235439', '2015-07-22 21:15:16', '68', '888888');
+INSERT INTO `cycle_rate` VALUES ('140667586001877793', '2015-07-22 21:15:21', '75', '888888');
+INSERT INTO `cycle_rate` VALUES ('340367970742044414', '2015-07-22 21:15:31', '66', '888888');
+INSERT INTO `cycle_rate` VALUES ('340617631049106838', '2015-07-22 21:15:36', '65', '888888');
+INSERT INTO `cycle_rate` VALUES ('364308718466804840', '2015-07-22 21:15:41', '75', '888888');
+INSERT INTO `cycle_rate` VALUES ('373708879569022361', '2015-07-22 21:15:46', '71', '888888');
+INSERT INTO `cycle_rate` VALUES ('465492080789551267', '2015-07-22 21:15:51', '68', '888888');
+INSERT INTO `cycle_rate` VALUES ('613477492947992538', '2015-07-21 21:15:11', '65', '888888');
+INSERT INTO `cycle_rate` VALUES ('627286403512354393', '2015-07-21 21:15:16', '68', '888888');
+INSERT INTO `cycle_rate` VALUES ('687872969376381540', '2015-07-22 21:16:01', '66', '888888');
+INSERT INTO `cycle_rate` VALUES ('734161814812473779', '2015-07-22 21:16:06', '66', '888888');
+INSERT INTO `cycle_rate` VALUES ('760976034233540542', '2015-07-22 21:16:11', '65', '888888');
+INSERT INTO `cycle_rate` VALUES ('797019772723663459', '2015-07-22 21:16:26', '68', '888888');
+INSERT INTO `cycle_rate` VALUES ('1406675860018777939', '2015-07-21 21:15:21', '75', '888888');
+INSERT INTO `cycle_rate` VALUES ('3403679707420444142', '2015-07-21 21:15:31', '66', '888888');
+INSERT INTO `cycle_rate` VALUES ('3406176310491068386', '2015-07-21 21:15:36', '65', '888888');
+INSERT INTO `cycle_rate` VALUES ('3643087184668048409', '2015-07-21 21:15:41', '75', '888888');
+INSERT INTO `cycle_rate` VALUES ('3737088795690223612', '2015-07-21 21:15:46', '71', '888888');
+INSERT INTO `cycle_rate` VALUES ('4654920807895512678', '2015-07-21 21:15:51', '68', '888888');
+INSERT INTO `cycle_rate` VALUES ('6878729693763815403', '2015-07-21 21:16:01', '66', '888888');
+INSERT INTO `cycle_rate` VALUES ('7341618148124737790', '2015-07-21 21:16:06', '66', '888888');
+INSERT INTO `cycle_rate` VALUES ('7609760342335405427', '2015-07-21 21:16:11', '65', '888888');
+INSERT INTO `cycle_rate` VALUES ('7970197727236634597', '2015-07-21 21:16:26', '68', '888888');

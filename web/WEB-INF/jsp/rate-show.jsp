@@ -12,10 +12,9 @@
 <head>
     <title>用户心率</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.css">
 
-    <script src="/static/js/jquery-1.11.3.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/highcharts4.2.1.js"></script>
+
 </head>
 <body style="background-color: #E6E6E6">
 <nav class="navbar navbar-default navbar-inverse">
@@ -51,14 +50,17 @@
         <form class="form-inline">
             <div class="form-group">
                 <label for="timeBegin">开始：</label>
-                <input type="datetime" class="form-control" id="timeBegin" placeholder="2015-11-11 11:11:11">
+                <input type="text" class="form-control form_datetime" readonly id="timeBegin" value="" placeholder="开始时间">
+                <span id="time-begin" class="hide"><fmt:formatDate value="${begin}" pattern="yyyy-MM-dd HH:mm"/></span>
+
             </div>
             <div class="form-group" style="margin-left: 10px;" >
                 <label for="timeEnd">结束：</label>
-                <input type="datetime" class="form-control" id="timeEnd" placeholder="2015-12-12 12:12:12">
+                <input type="text" class="form-control form_datetime" readonly id="timeEnd"  value="" placeholder="结束时间">
+                <span id="time-end" class="hide"><fmt:formatDate value="${end}" pattern="yyyy-MM-dd HH:mm"/></span>
             </div>
 
-            <button type="submit" class="btn btn-success">搜索</button>
+            <button type="button" class="btn btn-success" onclick="showChart()">搜索</button>
         </form>
     </div>
 
@@ -80,7 +82,7 @@
 
                 <tr>
                     <th  scope="row"><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd HH:mm:ss"/></th>
-                    <td class="rate-time hide"><fmt:formatDate value="${item.time}" pattern="HH:mm:ss"/></td>
+                    <td class="rate-time hide"><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td class="rate-value"><c:out value="${item.rate}" /></td>
                 </tr>
 
@@ -94,9 +96,25 @@
 </div>
 </body>
 </html>
+<script src="/static/js/jquery-1.11.3.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/highcharts4.2.1.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+
 <script>
 
     $(function () {
+
+        $("#timeBegin").val($("#time-begin").text());
+        $("#timeEnd").val($("#time-end").text());
+
+        $(".form_datetime").datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            autoclose: true,
+            todayBtn: true,
+            language: "ch_CN"
+        });
 
         var timeArray = getTimeArray();
         var rateArray = getRateArray();
@@ -148,6 +166,21 @@
             }]
         });
     });
+
+    function showChart(){
+        var begin = $("#timeBegin").val();
+        var end = $("#timeEnd").val();
+        if(begin != "" && end != ""){
+            begin += ":00";
+            end += ":00";
+
+            var url = "/rate/show/${appId}";
+            window.location.href = url + "?begin="+begin+"&end="+end;
+        }else{
+            alert("请输入开始时间和结束时间！");
+        }
+
+    }
 
     function getTimeArray(){
         var objs = $(".rate-time");

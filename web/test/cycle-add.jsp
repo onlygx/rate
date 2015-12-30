@@ -31,8 +31,8 @@
     function save(){
         var param = {
             "rate":"66,68,65,75",
-            "appId":"888888",
-            "time":"1311254111111,1311254111111,1311254111111,1311254111111"
+            "appId":"1",
+            "time":"1401254115000,1401254116000,1401254117000,1401254118000"
         };
         $.post("/rate/history",param,function(data){
             console.log(data);
@@ -43,7 +43,7 @@
         var param = {
             "rate":66,
             "appId":"1",
-            "time":1311254111111
+            "time":1451488543000
         };
         $.post("/rate/save",param,function(data){
             console.log(data);
