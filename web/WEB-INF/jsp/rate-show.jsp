@@ -50,13 +50,14 @@
         <form class="form-inline">
             <div class="form-group">
                 <label for="timeBegin">开始：</label>
-                <input type="text" class="form-control form_datetime" readonly id="timeBegin" value="" placeholder="开始时间">
+                <input type="text" class="form-control form_datetime" readonly id="timeBegin" value=""
+                       placeholder="开始时间">
                 <span id="time-begin" class="hide"><fmt:formatDate value="${begin}" pattern="yyyy-MM-dd HH:mm"/></span>
 
             </div>
-            <div class="form-group" style="margin-left: 10px;" >
+            <div class="form-group" style="margin-left: 10px;">
                 <label for="timeEnd">结束：</label>
-                <input type="text" class="form-control form_datetime" readonly id="timeEnd"  value="" placeholder="结束时间">
+                <input type="text" class="form-control form_datetime" readonly id="timeEnd" value="" placeholder="结束时间">
                 <span id="time-end" class="hide"><fmt:formatDate value="${end}" pattern="yyyy-MM-dd HH:mm"/></span>
             </div>
 
@@ -69,7 +70,7 @@
 
     <div id="table" style="width: 80%;margin-top: 20px;">
 
-        <table class="table hide">
+        <table class="table">
             <caption>列表展示：</caption>
             <thead>
             <tr>
@@ -78,12 +79,14 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="item" items="${list}" varStatus="status" >
+            <c:forEach var="item" items="${list}" varStatus="status">
 
                 <tr>
-                    <th  scope="row"><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd HH:mm:ss"/></th>
-                    <td class="rate-time hide"><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <td class="rate-value"><c:out value="${item.rate}" /></td>
+                    <th scope="row"><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd HH:mm:ss"/></th>
+                    <td class="rate-time hide"><fmt:formatDate value="${item.time}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                    <td class="rate-time-long ">${item.time.getTime()}</td>
+                    <td  > <c:out value="${item.time.getTime()}"></c:out> </td>
+                    <td class="rate-value"><c:out value="${item.rate}"/></td>
                 </tr>
 
             </c:forEach>
@@ -113,16 +116,27 @@
             format: 'yyyy-mm-dd hh:ii',
             autoclose: true,
             todayBtn: true,
-            language: "ch_CN"
+            language: "zh-CN"
         });
 
-        var timeArray = getTimeArray();
-        var rateArray = getRateArray();
-        console.log(timeArray)
-        console.log(rateArray)
+        /*var timeArray = getTimeArray();
+         var rateArray = getRateArray();*/
+        var timeRateArray = getTimeLongArray();
+        // console.log(timeRateArray);
+        Highcharts.setOptions({
+            lang: {
+                resetZoom: "重置心率视图",
+                resetZoomTitle: "回到初始状态"
+            },
+            global: {
+                useUTC: false
+            }
+        });
 
         $('#container').highcharts({
+
             chart: {
+                zoomType: 'x',
                 type: 'spline'
             },
             title: {
@@ -135,9 +149,16 @@
             },
             xAxis: {
                 type: 'datetime',
-                categories: timeArray,
-                title: {
-                    text: '日期'
+                /*categories: timeArray,*/
+
+                dateTimeLabelFormats: {
+                    second: '%e日 %H:%M:%S',
+                    minute: '%e日 %H:%M',
+                    hour: '%e日 %H:%M',
+                    day: '%e. %b',
+                    week: '%e. %b',
+                    month: '%b \'%y',
+                    year: '%Y'
                 }
             },
             yAxis: {
@@ -162,58 +183,76 @@
             },
             series: [{
                 name: '心率',
-                data: rateArray
+                data: timeRateArray
             }]
         });
     });
 
-    function showChart(){
+    function showChart() {
         var begin = $("#timeBegin").val();
         var end = $("#timeEnd").val();
-        if(begin != "" && end != ""){
+        if (begin != "" && end != "") {
             begin += ":00";
             end += ":00";
 
             var url = "/rate/show/${appId}";
-            window.location.href = url + "?begin="+begin+"&end="+end;
-        }else{
+            window.location.href = url + "?begin=" + begin + "&end=" + end;
+        } else {
             alert("请输入开始时间和结束时间！");
         }
 
     }
 
-    function getTimeArray(){
+    function getTimeArray() {
         var objs = $(".rate-time");
         var values = new Array(objs.length);
-        for(var i = 0;i<objs.length;i++){
-            try{
+        for (var i = 0; i < objs.length; i++) {
+            try {
                 var val = objs.eq(i).text();
                 values[i] = val;
-            }catch (e){
+            } catch (e) {
                 console.log(e);
             }
         }
         return values;
     }
 
-    function getRateArray(){
+    function getRateArray() {
         var objs = $(".rate-value");
         var values = new Array(objs.length);
-        for(var i = 0;i<objs.length;i++){
+        for (var i = 0; i < objs.length; i++) {
             var val = objs.eq(i).text();
-            try{
-                if(val == ""){
+            try {
+                if (val == "") {
                     values[i] = null;
-                }else{
+                } else {
                     var root = parseInt(val);
                     values[i] = root;
                 }
 
-            }catch (e){
+            } catch (e) {
                 values[i] = "null";
                 console.log(e);
             }
         }
         return values;
     }
+
+    function getTimeLongArray() {
+        var rateArray = getRateArray();
+        var objs = $(".rate-time-long");
+        var values = new Array(objs.length);
+        for (var i = 0; i < objs.length; i++) {
+            var val = objs.eq(i).text();
+            try {
+                var array2 = new Array(2);
+                array2 = [parseFloat(val), rateArray[i]];
+                values[i] = array2;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        return values;
+    }
+
 </script>

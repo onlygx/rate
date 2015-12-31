@@ -66,7 +66,7 @@ public class RateController extends BaseController {
         List<CycleRate> crList = cycleRateService.list(appId,begin,end);
         Long tempTime = 1l;
         for(int i = 0 ; i < crList.size(); i ++){
-            if((crList.get(i).getTime().getTime() - tempTime) > 10000){
+            if((crList.get(i).getTime().getTime() - tempTime) > 10000 && i != 0){
                 CycleRate r = new CycleRate(tempTime+1000,null,null);
                 crList.add(i,r);
                 i++;
