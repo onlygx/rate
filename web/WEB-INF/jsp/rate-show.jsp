@@ -50,14 +50,14 @@
         <form class="form-inline">
             <div class="form-group">
                 <label for="timeBegin">开始：</label>
-                <input type="text" class="form-control form_datetime" readonly id="timeBegin" value=""
+                <input type="text" class="form-control form_datetime" style="width: 200px;"  id="timeBegin" value=""
                        placeholder="开始时间">
                 <span id="time-begin" class="hide"><fmt:formatDate value="${begin}" pattern="yyyy-MM-dd HH:mm"/></span>
 
             </div>
             <div class="form-group" style="margin-left: 10px;">
                 <label for="timeEnd">结束：</label>
-                <input type="text" class="form-control form_datetime" readonly id="timeEnd" value="" placeholder="结束时间">
+                <input type="text" class="form-control form_datetime" style="width: 200px;"  id="timeEnd" value="" placeholder="结束时间">
                 <span id="time-end" class="hide"><fmt:formatDate value="${end}" pattern="yyyy-MM-dd HH:mm"/></span>
             </div>
 
@@ -180,8 +180,31 @@
                 verticalAlign: 'middle',
                 borderWidth: 0
             },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    lineWidth: 1,
+                    marker: {
+                        enabled: false
+                    },
+                    shadow: false,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
             series: [{
                 name: '心率',
+                type: 'area',
                 data: timeRateArray
             }]
         });
