@@ -70,7 +70,7 @@
 
     <div id="table" style="width: 80%;margin-top: 20px;">
 
-        <table class="table">
+        <table class="table hide">
             <caption>列表展示：</caption>
             <thead>
             <tr>
@@ -85,7 +85,6 @@
                     <th scope="row"><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd HH:mm:ss"/></th>
                     <td class="rate-time hide"><fmt:formatDate value="${item.time}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
                     <td class="rate-time-long ">${item.time.getTime()}</td>
-                    <td  > <c:out value="${item.time.getTime()}"></c:out> </td>
                     <td class="rate-value"><c:out value="${item.rate}"/></td>
                 </tr>
 
