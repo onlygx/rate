@@ -60,7 +60,6 @@ public class RateController extends BaseController {
     public ModelAndView showCall(@PathVariable String appId,
                                  @RequestParam(value="begin", required=false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date begin,
                                  @RequestParam(value="end", required=false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date end,
-
                                  HttpServletRequest request, ModelMap model){
 
         List<CycleRate> crList = cycleRateService.list(appId,begin,end);
